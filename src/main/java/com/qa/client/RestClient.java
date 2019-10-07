@@ -34,12 +34,23 @@ public class RestClient {
 		return getResponse(httpMethod, request, serviceUri);
 	}
 
-	public static void PutCall() {
+	public static Response PutCall(String baseUri, String contentType, boolean log, String parameterName,
+			String parameterValue, String httpMethod, String serviceUri, Object obj) {
 
+		setBaseUri(baseUri);
+		RequestSpecification request = createRequest(contentType, log);
+		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		request.body(TestUtil.pojoToJson(obj));
+		return getResponse(httpMethod, request, serviceUri);
 	}
 
-	public static void DeleteCall() {
+	public static Response DeleteCall(String baseUri, String contentType, boolean log, String parameterName,
+			String parameterValue, String httpMethod, String serviceUri, Object obj) {
 
+		setBaseUri(baseUri);
+		RequestSpecification request = createRequest(contentType, log);
+		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		return getResponse(httpMethod, request, serviceUri);
 	}
 
 	// PREPARE REQUEST
