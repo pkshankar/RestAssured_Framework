@@ -16,7 +16,9 @@ import io.restassured.response.Response;
 
 public class GetUserApiTest extends TestBase {
 
-	String baseUrl, serviceUrl, accessToken;
+	String baseUrl, serviceUrl, authorization;
+	int pageCountExpected = 84;
+	Response response;
 
 	public GetUserApiTest() {
 
@@ -28,28 +30,29 @@ public class GetUserApiTest extends TestBase {
 
 		baseUrl = prop.getProperty("baseUrl");
 		serviceUrl = prop.getProperty("getUserListServiceUrl");
-		accessToken = prop.getProperty("accessToken");
+		authorization = prop.getProperty("authorization");
+		HashMap<String, String> map = new HashMap<>();
+		map.put("AUTHORIZATION", authorization);
+		response = RestClient.GetCall(baseUrl, "json", false, "GET", serviceUrl, map);
 
 	}
 
+	// Validate status code
 	@Test
-	public void getUserApiTest() {
+	public void getUserApiStatusCodeTest() {
 
-		Response response = RestClient.GetCall(baseUrl, "json", true, "access-token", accessToken, "GET", serviceUrl);
 		Assert.assertEquals(RestClient.getStatusCode(response), HttpResponseCode.HTTP_RESPONSE_CODE_200);
-		
-		// VALIDATE totalCount
+
+	}
+
+	// Validate page count
+	@Test
+	public void getUserApiPageCountTest() {
+
 		JsonPath jPath = RestClient.getJsonPath(response);
-//		String totalCount = jPath.getString("_meta.totalCount");
-//		Assert.assertEquals(totalCount, "1893");
-		System.out.println("**********************************");
-		ArrayList al = jPath.get("result");
-		HashMap<String, Object> hMap = (HashMap<String, Object>) al.get(0);
-		//System.out.println(hMap.get("first_name"));
-		for(Map.Entry<String, Object> map : hMap.entrySet()) {
-			
-			System.out.println("KEY = " +map.getKey() +" VALUE IS = " + map.getValue());
-		}
+		String pageCount = jPath.getString("_meta.pageCount");
+		Assert.assertEquals(Integer.parseInt(pageCount), pageCountExpected);
+
 	}
 
 }

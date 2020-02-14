@@ -1,5 +1,7 @@
 package com.qa.test;
 
+import java.util.HashMap;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -14,7 +16,8 @@ import io.restassured.response.Response;
 
 public class PostUserApiTest extends TestBase {
 
-	String baseUrl, serviceUrl, accessToken;
+	String baseUrl, serviceUrl, authorization;
+	HashMap<String, String> map;
 
 	public PostUserApiTest() {
 
@@ -26,7 +29,9 @@ public class PostUserApiTest extends TestBase {
 
 		baseUrl = prop.getProperty("baseUrl");
 		serviceUrl = prop.getProperty("getUserListServiceUrl");
-		accessToken = prop.getProperty("accessToken");
+		authorization = prop.getProperty("authorization");
+		map = new HashMap<>();
+		map.put("AUTHORIZATION", authorization);
 
 	}
 
@@ -41,7 +46,7 @@ public class PostUserApiTest extends TestBase {
 	public void createUserApiTest(String first_name, String last_name, String gender, String email, String status) {
 
 		CreateUser userObj = new CreateUser(first_name, last_name, gender, email, status);
-		Response response = RestClient.PostCall(baseUrl, "json", true, "access-token", accessToken, "POST", serviceUrl, userObj);
+		Response response = RestClient.PostCall(baseUrl, "json", false, "POST", serviceUrl, map, userObj);
 		response.prettyPrint();
 	}
 

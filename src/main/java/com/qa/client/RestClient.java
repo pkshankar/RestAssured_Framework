@@ -1,5 +1,6 @@
 package com.qa.client;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.qa.util.TestUtil;
@@ -14,42 +15,42 @@ import io.restassured.specification.RequestSpecification;
 
 public class RestClient {
 
-	public static Response GetCall(String baseUri, String contentType, boolean log, String parameterName,
-			String parameterValue, String httpMethod, String serviceUri) {
+	public static Response GetCall(String baseUri, String contentType, boolean log, String httpMethod,
+			String serviceUri, HashMap<String, String> hMap) {
 
 		setBaseUri(baseUri);
 		RequestSpecification request = createRequest(contentType, log);
-		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		addHeader(request, hMap);
 		return getResponse(httpMethod, request, serviceUri);
 
 	}
 
-	public static Response PostCall(String baseUri, String contentType, boolean log, String parameterName,
-			String parameterValue, String httpMethod, String serviceUri, Object obj) {
+	public static Response PostCall(String baseUri, String contentType, boolean log, String httpMethod,
+			String serviceUri, HashMap<String, String> hMap, Object obj) {
 
 		setBaseUri(baseUri);
 		RequestSpecification request = createRequest(contentType, log);
-		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		addHeader(request, hMap);
 		request.body(TestUtil.pojoToJson(obj));
 		return getResponse(httpMethod, request, serviceUri);
 	}
 
-	public static Response PutCall(String baseUri, String contentType, boolean log, String parameterName,
-			String parameterValue, String httpMethod, String serviceUri, Object obj) {
+	public static Response PutCall(String baseUri, String contentType, boolean log, String httpMethod,
+			String serviceUri, HashMap<String, String> hMap, Object obj) {
 
 		setBaseUri(baseUri);
 		RequestSpecification request = createRequest(contentType, log);
-		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		addHeader(request, hMap);
 		request.body(TestUtil.pojoToJson(obj));
 		return getResponse(httpMethod, request, serviceUri);
 	}
 
-	public static Response DeleteCall(String baseUri, String contentType, boolean log, String parameterName,
-			String parameterValue, String httpMethod, String serviceUri, Object obj) {
+	public static Response DeleteCall(String baseUri, String contentType, boolean log, String httpMethod,
+			String serviceUri, HashMap<String, String> hMap) {
 
 		setBaseUri(baseUri);
 		RequestSpecification request = createRequest(contentType, log);
-		addAccessTokenQueryParameter(request, parameterName, parameterValue);
+		addHeader(request, hMap);
 		return getResponse(httpMethod, request, serviceUri);
 	}
 
@@ -90,10 +91,9 @@ public class RestClient {
 		return request;
 	}
 
-	public static void addAccessTokenQueryParameter(RequestSpecification request, String parameterName,
-			String parameterValue) {
+	public static void addHeader(RequestSpecification request, HashMap<String, String> headerMap) {
 
-		request.queryParam(parameterName, parameterValue);
+		request.headers(headerMap);
 	}
 
 	public static Response getResponse(String httpMethod, RequestSpecification request, String serviceUri) {
