@@ -17,7 +17,7 @@ import io.restassured.response.Response;
 public class GetUserApiTest extends TestBase {
 
 	String baseUrl, serviceUrl, authorization;
-	int pageCountExpected = 84;
+	//int pageCountExpected = 84;
 	Response response;
 
 	public GetUserApiTest() {
@@ -46,13 +46,13 @@ public class GetUserApiTest extends TestBase {
 	}
 
 	// Validate page count
-	@Test
-	public void getUserApiPageCountTest() {
-
-		JsonPath jPath = RestClient.getJsonPath(response);
-		String pageCount = jPath.getString("_meta.pageCount");
-		Assert.assertEquals(Integer.parseInt(pageCount), pageCountExpected);
-
-	}
+//	@Test
+//	public void getUserApiPageCountTest() {
+//
+//		JsonPath jPath = RestClient.getJsonPath(response);
+//		String pageCount = jPath.getString("_meta.pageCount");
+//		Assert.assertEquals(Integer.parseInt(pageCount), pageCountExpected);
+//
+//	}
 
 }

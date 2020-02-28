@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
+      <class name="com.qa.test.GetUserApiTest">
+        <methods>
+          <include name="getUserApiStatusCodeTest"/>
+          <include name="getUserApiPageCountTest"/>
+          <include name="setUp"/>
+        </methods>
+      </class> <!-- com.qa.test.GetUserApiTest -->
+      <class name="com.qa.test.PostUserApiTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="createUserApiTest"/>
+        </methods>
+      </class> <!-- com.qa.test.PostUserApiTest -->
+      <class name="com.qa.test.PutUserApiTest">
+        <methods>
+          <include name="updateUserApiTest"/>
+          <include name="setUp"/>
+        </methods>
+      </class> <!-- com.qa.test.PutUserApiTest -->
       <class name="com.qa.test.DeleteUserApiTest">
         <methods>
           <include name="setUp"/>
